@@ -12,7 +12,12 @@ router.get("/", (req, res) => {
 
 // GET BY ID
 router.get("/:id", (req, res) => {
-    Thought.findByPk(req.params.id)
+    Thought.findOne({_id: req.params.id})
+    .populate({
+        path: "reactions",
+        select: "-__v",
+    })
+    .select("-__v")
     .then(results => {
         res.json(results)
     })
